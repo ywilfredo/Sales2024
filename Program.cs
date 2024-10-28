@@ -1,7 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using Sales.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//conexion
+builder.Services.AddDbContext<SalesDbContext>(options => {
+    options.UseSqlite(
+        builder.Configuration["ConnectionStrings:SalesDbConnection"]);
+});
+
+
 
 var app = builder.Build();
 
