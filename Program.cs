@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Sales.Data;
+using Sales.Repository.Implementations;
+using Sales.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddDbContext<SalesDbContext>(options => {
     options.UseSqlite(
         builder.Configuration["ConnectionStrings:SalesDbConnection"]);
 });
+
+//Inyecciones 
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 
 
 
