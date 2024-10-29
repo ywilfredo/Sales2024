@@ -12,5 +12,14 @@ namespace Sales.Repository.Interfaces
         void Update(Country country);
 
         void Delete(Country country);
+
+        //Metodos asincronos
+
+        Task<IEnumerable<Country>> AllCountriesAsync();
+        Task<Country> GetByIdAsync(int id);
+        Task<Country> CreateAsync(Country country);
+        Task<Country> UpdateAsync(Country country);
+        Task<Country> DeleteAsync(Country country);
+
     }
 }

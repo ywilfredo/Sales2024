@@ -26,13 +26,13 @@ namespace Sales.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Country country)
+        public async Task<IActionResult> CreateAsync(Country country)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _countryRepository.Create(country);
+                    await _countryRepository.CreateAsync(country);
                     _flashMessage.Confirmation("El País se creó correctamente");
                     return RedirectToAction("Index");
                 }

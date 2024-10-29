@@ -1,4 +1,5 @@
-﻿using Sales.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Sales.Data;
 using Sales.Models;
 using Sales.Repository.Interfaces;
 
@@ -7,7 +8,7 @@ namespace Sales.Repository.Implementations
     public class CountryRepository : ICountryRepository
     {
         private readonly SalesDbContext _context;
-        public CountryRepository( SalesDbContext context)
+        public CountryRepository(SalesDbContext context)
         {
             _context = context;
         }
@@ -15,51 +16,52 @@ namespace Sales.Repository.Implementations
 
         public void Create(Country country)
         {
-            try
-            {
-                _context.Countries.Add(country);
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            _context.Countries.Add(country);
+            _context.SaveChanges();
         }
-
-        public void Delete(Country country)
-        {
-            try
-            {
-                _context.Countries.Remove(country);
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
         public Country? GetById(int id)
         {
             Country? country = _context.Countries
                 .FirstOrDefault(c => c.Id == id);
             return country;
         }
-
         public void Update(Country country)
         {
-            try
-            {
-                _context.Countries.Update(country);
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
+            _context.Countries.Update(country);
+            _context.SaveChanges();
+        }
 
-                throw;
-            }
+        public void Delete(Country country)
+        {
+            _context.Countries.Remove(country);
+            _context.SaveChanges();
+        }
+
+
+
+        public async Task<IEnumerable<Country>> AllCountriesAsync()
+        {
+            return await _context.Countries.ToListAsync();
+        }
+
+        public async Task<Country> CreateAsync(Country country)
+        {
+            _context.Countries.Add(country);
+            await _context.SaveChangesAsync();
+            return country;
+        }
+       
+        public Task<Country> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<Country> UpdateAsync(Country country)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<Country> DeleteAsync(Country country)
+        {
+            throw new NotImplementedException();
         }
     }
 }
