@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Country>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<main id="main" class="main">
+
+    <section class="section ">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Paises</h5>
+                        <p>
+                            <a asp-action="Create" class="btn btn-success mb-4">Crear Nuevo</a>
+                        </p>
+
+                        <flash dismissable="true" />
+                        <!-- Table with stripped rows -->
+                        <table id="myTable" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td> @Html.DisplayFor(modelItem => item.Name)</td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm"> <i class="bi bi-pencil"></i> Editar</a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm"> <i class="bi bi-trash3"></i> Borrar</a>
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://code.jquery.com/jquery-3.7.0.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js" type="text/javascript"></script>
+
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js" type="text/javascript"></script>
+
+    <script>
+        var table = new DataTable('#myTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-MX.json',
+            },
+            responsive: {
+                details: {
+                    type: 'column',
+                    target: 'tr'
+                }
+            },
+            // dom: 'Bfrtip',
+            // buttons: ['colvis'],
+
+            lengthMenu: [10, 25, 50],
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                // { responsivePriority: 2, targets: 2 }
+            ]
+        });
+    </script>
+}

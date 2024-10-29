@@ -2,22 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Sales.Models;
 using Sales.Repository.Interfaces;
+using Vereyon.Web;
 
 namespace Sales.Controllers
 {
     public class CountryController : Controller
     {
         private readonly ICountryRepository _countryRepository;
-        public CountryController( ICountryRepository countryRepository)
+        private readonly IFlashMessage _flashMessage;
+        public CountryController( ICountryRepository countryRepository, IFlashMessage flashMessage)
         {
             _countryRepository = countryRepository;
+            _flashMessage = flashMessage;
         }
         public IActionResult Index()
         {
             IEnumerable<Country> countries = _countryRepository.AllCountries;
             return View(countries);
         }
-
         public IActionResult Create()
         {
             return View();
@@ -31,7 +33,7 @@ namespace Sales.Controllers
                 try
                 {
                     _countryRepository.Create(country);
-                    TempData["mensaje"] = "El país se creó correctamente";
+                    _flashMessage.Confirmation("El País se creó correctamente");
                     return RedirectToAction("Index");
                 }
                 catch (DbUpdateException dbUpdateException)
@@ -72,7 +74,7 @@ namespace Sales.Controllers
                 try
                 {
                     _countryRepository.Update(country);
-                    TempData["mensaje"] = "El País se actualizó correctamente";
+                    _flashMessage.Confirmation("El País se actualizó correctamente");
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
@@ -108,7 +110,7 @@ namespace Sales.Controllers
         public IActionResult Delete(Country country)
         {
             _countryRepository.Delete(country);
-            TempData["mensaje"] = "El país se eliminó correctamente";
+            _flashMessage.Confirmation("El País se eliminó correctamente");
             return RedirectToAction("Index");
         }
 

@@ -2,11 +2,15 @@ using Microsoft.EntityFrameworkCore;
 using Sales.Data;
 using Sales.Repository.Implementations;
 using Sales.Repository.Interfaces;
+using Vereyon.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//message toast importante colocarlo sino no funciona
+builder.Services.AddFlashMessage();
 
 //conexion
 builder.Services.AddDbContext<SalesDbContext>(options => {
